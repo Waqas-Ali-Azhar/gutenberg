@@ -21,19 +21,19 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	];
 
 	// Pick up the background CSS classes.
-	if ( array_key_exists('backgroundColor', $attributes ) ) {
+	if ( array_key_exists( 'backgroundColor', $attributes ) ) {
 		$colors[ 'bg_css_classes' ] .= ' has-background-color';
 	}
-	if ( array_key_exists('backgroundColorCSSClass', $attributes ) ) {
+	if ( array_key_exists( 'backgroundColorCSSClass', $attributes ) ) {
 		$colors[ 'bg_css_classes' ] .= " {$attributes['backgroundColorCSSClass']};";
 	}
 	$colors[ 'bg_css_classes' ] = esc_attr( trim( $colors[ 'bg_css_classes' ] ) );
 
 	// Pick up the color CSS classes.
-	if ( array_key_exists('textColor', $attributes ) ) {
+	if ( array_key_exists( 'textColor', $attributes ) ) {
 		$colors[ 'text_css_classes' ] .= ' has-text-color;';
 	}
-	if ( array_key_exists('textColorCSSClass', $attributes ) ) {
+	if ( array_key_exists( 'textColorCSSClass', $attributes ) ) {
 		$colors[ 'text_css_classes' ] .= " {$attributes['textColorCSSClass']};";
 	}
 	$colors[ 'text_css_classes' ] = esc_attr( trim( $colors[ 'text_css_classes' ] ) );
