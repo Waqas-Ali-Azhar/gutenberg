@@ -15,12 +15,12 @@
  * @return string Returns the post content with the legacy widget added.
  */
 function render_block_navigation_menu( $attributes, $content, $block ) {
-	// Get the background CSS classes.
 	$colors = [
 		'bg_css_classes' => '',
 		'text_css_classes' => ''
 	];
 
+	// Pick up the background CSS classes.
 	if ( array_key_exists('backgroundColor', $attributes ) ) {
 		$colors[ 'bg_css_classes' ] .= ' has-background-color';
 	}
@@ -29,7 +29,7 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	}
 	$colors[ 'bg_css_classes' ] = esc_attr( trim( $colors[ 'bg_css_classes' ] ) );
 
-	// Get the color CSS classes.
+	// Pick up the color CSS classes.
 	if ( array_key_exists('textColor', $attributes ) ) {
 		$colors[ 'text_css_classes' ] .= ' has-text-color;';
 	}
@@ -38,7 +38,7 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	}
 	$colors[ 'text_css_classes' ] = esc_attr( trim( $colors[ 'text_css_classes' ] ) );
 
-	// Inline Styles.
+	// Pick up inline Styles.
 	$colors[ 'bg_inline_styles'] = 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';';
 	$colors[ 'text_inline_styles'] = 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';';
 

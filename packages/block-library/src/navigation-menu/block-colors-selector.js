@@ -23,7 +23,7 @@ const ColorSelectorIcon = ( { style } ) =>
 			className="block-library-colors-selector__state-selection wp-block-navigation-menu-item"
 			style={ style }
 		>
-			{ __( 'Aa' ) }
+			Aa
 		</div>
 	</div>;
 
