@@ -15,7 +15,7 @@
  * @return string Returns the post content with the legacy widget added.
  */
 function render_block_navigation_menu( $attributes, $content, $block ) {
-	// Add CSS classes and inline styles.
+	// Get the background CSS classes.
 	$bg_color_css_classes = '';
 	if ( array_key_exists('backgroundColor', $attributes ) ) {
 		$bg_color_css_classes .= ' has-background-color';
@@ -25,6 +25,7 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	}
 	$bg_color_css_classes = trim( $bg_color_css_classes );
 
+	// Get the color CSS classes.
 	$text_color_css_classes = '';
 	if ( array_key_exists('textColor', $attributes ) ) {
 		$text_color_css_classes .= ' has-text-color';
@@ -35,20 +36,9 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	}
 	$text_color_css_classes = trim( $text_color_css_classes );
 
-
-	$bg_inline_styles = '';
-	if ( array_key_exists('customBackgroundColor', $attributes ) ) {
-		$bg_inline_styles = "background-color: {$attributes['customBackgroundColor']};";
-	} elseif ( array_key_exists('backgroundColorValue', $attributes ) ) {
-		$bg_inline_styles = "background-color: {$attributes['backgroundColorValue']};";
-	}
-
-	$text_inline_styles = '';
-	if ( array_key_exists('textColorValue', $attributes ) ) {
-		$text_inline_styles = " color: {$attributes['textColorValue']};";
-	} elseif ( array_key_exists('customTextColor', $attributes ) ) {
-		$text_inline_styles = " color: {$attributes['customTextColor']};";
-	}
+	// Inline Styles.
+	$bg_inline_styles = "color: {$attributes['backgroundColorValue']}";
+	$text_inline_styles = "color: {$attributes['textColorValue']}";
 
 	return
 		'<nav class="wp-block-navigation-menu">' .
