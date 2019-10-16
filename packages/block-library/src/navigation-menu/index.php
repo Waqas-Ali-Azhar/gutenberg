@@ -31,23 +31,23 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	}
 
 	if ( array_key_exists('textColorCSSClass', $attributes ) ) {
-		$text_color_css_classes .= " ${attributes['textColorCSSClass']}";
+		$text_color_css_classes .= " {$attributes['textColorCSSClass']}";
 	}
 	$text_color_css_classes = trim( $text_color_css_classes );
 
 
 	$bg_inline_styles = '';
 	if ( array_key_exists('customBackgroundColor', $attributes ) ) {
-		$bg_inline_styles = "background-color: ${attributes['customBackgroundColor']};";
+		$bg_inline_styles = "background-color: {$attributes['customBackgroundColor']};";
 	} elseif ( array_key_exists('backgroundColorValue', $attributes ) ) {
-		$bg_inline_styles = "background-color: ${attributes['backgroundColorValue']};";
+		$bg_inline_styles = "background-color: {$attributes['backgroundColorValue']};";
 	}
 
 	$text_inline_styles = '';
 	if ( array_key_exists('textColorValue', $attributes ) ) {
-		$text_inline_styles = " color: ${attributes['textColorValue']};";
+		$text_inline_styles = " color: {$attributes['textColorValue']};";
 	} elseif ( array_key_exists('customTextColor', $attributes ) ) {
-		$text_inline_styles = " color: ${attributes['customTextColor']};";
+		$text_inline_styles = " color: {$attributes['customTextColor']};";
 	}
 
 	return
@@ -76,8 +76,8 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 function build_navigation_menu_html( $block, $bg_css, $text_css, $bg_styles, $text_styles ) {
 	$html = '';
 	foreach ( (array) $block['innerBlocks'] as $key => $menu_item ) {
-		$html .= "<li style='$bg_styles $text_styles' class='wp-block-navigation-menu-item $bg_css'>" .
-			"<a class='wp-block-navigation-menu-link $text_css'";
+		$html .= "<li style='$bg_styles'><div class='wp-block-navigation-menu-item $bg_css'>" .
+			"<a class='wp-block-navigation-menu-link' style='{$text_styles}'";
 		if ( isset( $menu_item['attrs']['destination'] ) ) {
 			$html .= ' href="' . $menu_item['attrs']['destination'] . '"';
 		}
@@ -86,7 +86,7 @@ function build_navigation_menu_html( $block, $bg_css, $text_css, $bg_styles, $te
 		}
 		$html .= '>';
 		if ( isset( $menu_item['attrs']['label'] ) ) {
-			$html .= $menu_item['attrs']['label'];
+			$html .= "<span class='{$text_css}'>{$menu_item['attrs']['label']}</span>";
 		}
 		$html .= '</a>';
 
@@ -94,7 +94,7 @@ function build_navigation_menu_html( $block, $bg_css, $text_css, $bg_styles, $te
 			$html .= build_navigation_menu_html( $menu_item, $bg_css, $text_css, $bg_styles, $text_styles );
 		}
 
-		$html .= '</li>';
+		$html .= '</div></li>';
 	}
 	return '<ul>' . $html . '</ul>';
 }
