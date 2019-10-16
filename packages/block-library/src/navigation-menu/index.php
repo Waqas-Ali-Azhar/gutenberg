@@ -23,7 +23,7 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	if ( array_key_exists('backgroundColorCSSClass', $attributes ) ) {
 		$bg_color_css_classes .= " {$attributes['backgroundColorCSSClass']}";
 	}
-	$bg_color_css_classes = trim( $bg_color_css_classes );
+	$bg_color_css_classes = esc_attr( trim( $bg_color_css_classes ) );
 
 	// Get the color CSS classes.
 	$text_color_css_classes = '';
@@ -34,11 +34,11 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	if ( array_key_exists('textColorCSSClass', $attributes ) ) {
 		$text_color_css_classes .= " {$attributes['textColorCSSClass']}";
 	}
-	$text_color_css_classes = trim( $text_color_css_classes );
+	$text_color_css_classes = esc_attr( trim( $text_color_css_classes ) );
 
 	// Inline Styles.
-	$bg_inline_styles = "color: {$attributes['backgroundColorValue']}";
-	$text_inline_styles = "color: {$attributes['textColorValue']}";
+	$bg_inline_styles = 'color: ' . esc_attr( $attributes['backgroundColorValue'] );
+	$text_inline_styles = 'color: ' . esc_attr( $attributes['textColorValue'] );
 
 	return
 		'<nav class="wp-block-navigation-menu">' .
