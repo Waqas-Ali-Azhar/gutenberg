@@ -15,53 +15,52 @@
  * @return string Returns the post content with the legacy widget added.
  */
 function render_block_navigation_menu( $attributes, $content, $block ) {
-	$colors = [
-		'bg_css_classes' => '',
-		'text_css_classes' => ''
-	];
+	$colors = array(
+		'bg_css_classes'   => '',
+		'text_css_classes' => '',
+	);
 
 	// Pick up the background CSS classes.
 	if ( array_key_exists( 'backgroundColor', $attributes ) ) {
-		$colors[ 'bg_css_classes' ] .= ' has-background-color';
+		$colors['bg_css_classes'] .= ' has-background-color';
 	}
 	if ( array_key_exists( 'backgroundColorCSSClass', $attributes ) ) {
-		$colors[ 'bg_css_classes' ] .= " {$attributes['backgroundColorCSSClass']};";
+		$colors['bg_css_classes'] .= " {$attributes['backgroundColorCSSClass']};";
 	}
-	$colors[ 'bg_css_classes' ] = esc_attr( trim( $colors[ 'bg_css_classes' ] ) );
+	$colors['bg_css_classes'] = esc_attr( trim( $colors['bg_css_classes'] ) );
 
 	// Pick up the color CSS classes.
 	if ( array_key_exists( 'textColor', $attributes ) ) {
-		$colors[ 'text_css_classes' ] .= ' has-text-color;';
+		$colors['text_css_classes'] .= ' has-text-color;';
 	}
 	if ( array_key_exists( 'textColorCSSClass', $attributes ) ) {
-		$colors[ 'text_css_classes' ] .= " {$attributes['textColorCSSClass']};";
+		$colors['text_css_classes'] .= " {$attributes['textColorCSSClass']};";
 	}
-	$colors[ 'text_css_classes' ] = esc_attr( trim( $colors[ 'text_css_classes' ] ) );
+	$colors['text_css_classes'] = esc_attr( trim( $colors['text_css_classes'] ) );
 
 	// Pick up inline Styles.
-	$colors[ 'bg_inline_styles'] = 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';';
-	$colors[ 'text_inline_styles'] = 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';';
+	$colors['bg_inline_styles']   = 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';';
+	$colors['text_inline_styles'] = 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';';
 
-	return
-		'<nav class="wp-block-navigation-menu">' .
-			build_navigation_menu_html( $block, $colors ) .
-		'</nav>';
+	return '<nav class="wp-block-navigation-menu">' .
+		build_navigation_menu_html( $block, $colors ) .
+	'</nav>';
 }
 
 /**
  * Walks the inner block structure and returns an HTML list for it.
  *
- * @param array   $block          The block.
- * @param array   $colors         Contains inline syles and CSS classes to apply to menu item.
+ * @param array $block  The block.
+ * @param array $colors Contains inline styles and CSS classes to apply to menu item.
  *
  * @return string Returns  an HTML list from innerBlocks.
  */
 function build_navigation_menu_html( $block, $colors ) {
 	$html = '';
 	foreach ( (array) $block['innerBlocks'] as $key => $menu_item ) {
-		$html .= '<li style="' . $colors['bg_inline_styles'] . ' ' . $colors['text_inline_styles' ] . '">' .
-			'<div class="wp-block-navigation-menu-item ' . $colors['bg_css_classes' ] . '">' .
-			'<a class="wp-block-navigation-menu-link ' . $colors['text_css_classes' ] . '"';
+		$html .= '<li style="' . $colors['bg_inline_styles'] . ' ' . $colors['text_inline_styles'] . '">' .
+			'<div class="wp-block-navigation-menu-item ' . $colors['bg_css_classes'] . '">' .
+			'<a class="wp-block-navigation-menu-link ' . $colors['text_css_classes'] . '"';
 
 		if ( isset( $menu_item['attrs']['destination'] ) ) {
 			$html .= ' href="' . $menu_item['attrs']['destination'] . '"';
@@ -88,16 +87,17 @@ function build_navigation_menu_html( $block, $colors ) {
  * Register the navigation menu block.
  *
  * @uses render_block_navigation_menu()
+ * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_navigation_menu() {
-	$block_content = file_get_contents ( dirname( __FILE__ ) . '/../../../packages/block-library/src/navigation-menu/block.json' );
+	$block_content = file_get_contents( dirname( __FILE__ ) . '/../../../packages/block-library/src/navigation-menu/block.json' );
 	if ( ! $block_content ) {
 		throw new Error(
 			'block.json file not found'
 		);
 	}
 	$block_definition = json_decode( $block_content, true );
-	if( is_null( $block_definition ) ) {
+	if ( is_null( $block_definition ) ) {
 		throw new Error(
 			'Unable to parse block.json file'
 		);
