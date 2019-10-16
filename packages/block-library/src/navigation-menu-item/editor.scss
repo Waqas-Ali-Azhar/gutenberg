@@ -46,10 +46,7 @@ $menu-label-field-width: 140px;
 
 // Separator
 .wp-block-navigation-menu-item__separator {
-	margin-top: $grid-size;
-	margin-bottom: $grid-size;
-	margin-left: 0;
-	margin-right: 0;
+	margin: $grid-size 0 $grid-size;
 	border-top: $border-width solid $light-gray-500;
 }
 

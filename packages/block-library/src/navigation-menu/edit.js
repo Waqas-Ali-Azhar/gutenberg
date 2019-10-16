@@ -78,6 +78,8 @@ function NavigationMenu( {
 	/**
 	 * Set the color type according to the given values.
 	 * It propagate the color values into the attributes object.
+	 * Both `backgroundColorValue` and `textColorValue` are
+	 * using the apply inline styles.
 	 *
 	 * @param {string} colorType Color type to be applied.
 	 * @param {string} value     Color value to apply to the color type.
