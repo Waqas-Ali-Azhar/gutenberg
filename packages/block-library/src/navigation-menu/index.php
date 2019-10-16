@@ -16,39 +16,35 @@
  */
 function render_block_navigation_menu( $attributes, $content, $block ) {
 	// Get the background CSS classes.
-	$bg_color_css_classes = '';
+	$colors = [
+		'bg_css_classes' => '',
+		'text_css_classes' => ''
+	];
+
 	if ( array_key_exists('backgroundColor', $attributes ) ) {
-		$bg_color_css_classes .= ' has-background-color';
+		$colors[ 'bg_css_classes' ] .= ' has-background-color';
 	}
 	if ( array_key_exists('backgroundColorCSSClass', $attributes ) ) {
-		$bg_color_css_classes .= " {$attributes['backgroundColorCSSClass']}";
+		$colors[ 'bg_css_classes' ] .= " {$attributes['backgroundColorCSSClass']};";
 	}
-	$bg_color_css_classes = esc_attr( trim( $bg_color_css_classes ) );
+	$colors[ 'bg_css_classes' ] = esc_attr( trim( $colors[ 'bg_css_classes' ] ) );
 
 	// Get the color CSS classes.
-	$text_color_css_classes = '';
 	if ( array_key_exists('textColor', $attributes ) ) {
-		$text_color_css_classes .= ' has-text-color';
+		$colors[ 'text_css_classes' ] .= ' has-text-color;';
 	}
-
 	if ( array_key_exists('textColorCSSClass', $attributes ) ) {
-		$text_color_css_classes .= " {$attributes['textColorCSSClass']}";
+		$colors[ 'text_css_classes' ] .= " {$attributes['textColorCSSClass']};";
 	}
-	$text_color_css_classes = esc_attr( trim( $text_color_css_classes ) );
+	$colors[ 'text_css_classes' ] = esc_attr( trim( $colors[ 'text_css_classes' ] ) );
 
 	// Inline Styles.
-	$bg_inline_styles = 'color: ' . esc_attr( $attributes['backgroundColorValue'] );
-	$text_inline_styles = 'color: ' . esc_attr( $attributes['textColorValue'] );
+	$colors[ 'bg_inline_styles'] = 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';';
+	$colors[ 'text_inline_styles'] = 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';';
 
 	return
 		'<nav class="wp-block-navigation-menu">' .
-			build_navigation_menu_html(
-				$block,
-				$bg_color_css_classes,
-				$text_color_css_classes,
-				$bg_inline_styles,
-				$text_inline_styles
-			) .
+			build_navigation_menu_html( $block, $colors ) .
 		'</nav>';
 }
 
@@ -56,18 +52,17 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
  * Walks the inner block structure and returns an HTML list for it.
  *
  * @param array   $block          The block.
- * @param string  $bg_css         Background color CSS classes.
- * @param string  $text_css       Text color CSS classes.
- * @param string  $bg_styles      Background color inline styles.
- * @param string  $text_styles    Text color inline styles.
+ * @param array   $colors         Contains inline syles and CSS classes to apply to menu item.
  *
  * @return string Returns  an HTML list from innerBlocks.
  */
-function build_navigation_menu_html( $block, $bg_css, $text_css, $bg_styles, $text_styles ) {
+function build_navigation_menu_html( $block, $colors ) {
 	$html = '';
 	foreach ( (array) $block['innerBlocks'] as $key => $menu_item ) {
-		$html .= "<li style='$bg_styles'><div class='wp-block-navigation-menu-item $bg_css'>" .
-			"<a class='wp-block-navigation-menu-link' style='{$text_styles}'";
+		$html .= '<li style="' . $colors['bg_inline_styles'] . ' ' . $colors['text_inline_styles' ] . '">' .
+			'<div class="wp-block-navigation-menu-item ' . $colors['bg_css_classes' ] . '">' .
+			'<a class="wp-block-navigation-menu-link ' . $colors['text_css_classes' ] . '"';
+
 		if ( isset( $menu_item['attrs']['destination'] ) ) {
 			$html .= ' href="' . $menu_item['attrs']['destination'] . '"';
 		}
@@ -76,12 +71,12 @@ function build_navigation_menu_html( $block, $bg_css, $text_css, $bg_styles, $te
 		}
 		$html .= '>';
 		if ( isset( $menu_item['attrs']['label'] ) ) {
-			$html .= "<span class='{$text_css}'>{$menu_item['attrs']['label']}</span>";
+			$html .= $menu_item['attrs']['label'];
 		}
 		$html .= '</a>';
 
 		if ( count( (array) $menu_item['innerBlocks'] ) > 0 ) {
-			$html .= build_navigation_menu_html( $menu_item, $bg_css, $text_css, $bg_styles, $text_styles );
+			$html .= build_navigation_menu_html( $menu_item, $colors );
 		}
 
 		$html .= '</div></li>';
