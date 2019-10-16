@@ -55,11 +55,11 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 /**
  * Walks the inner block structure and returns an HTML list for it.
  *
- * @param {array}   $block          The block.
- * @param {string}  $bg_css         Background color CSS classes.
- * @param {string}  $text_css       Text color CSS classes.
- * @param {string}  $bg_styles      Background color inline styles.
- * @param {string}  $text_styles    Text color inline styles.
+ * @param array   $block          The block.
+ * @param string  $bg_css         Background color CSS classes.
+ * @param string  $text_css       Text color CSS classes.
+ * @param string  $bg_styles      Background color inline styles.
+ * @param string  $text_styles    Text color inline styles.
  *
  * @return string Returns  an HTML list from innerBlocks.
  */
