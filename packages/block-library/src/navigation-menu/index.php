@@ -90,30 +90,54 @@ function build_navigation_menu_html( $block, $colors ) {
  * @throws WP_Error An WP_Error exception parsing the block definition.
  */
 function register_block_core_navigation_menu() {
-	$block_content = file_get_contents( dirname( __FILE__ ) . '/../../../packages/block-library/src/navigation-menu/block.json' );
-	if ( ! $block_content ) {
-		throw new Error(
-			'block.json file not found'
-		);
-	}
-	$block_definition = json_decode( $block_content, true );
-	if ( is_null( $block_definition ) ) {
-		throw new Error(
-			'Unable to parse block.json file'
-		);
-	}
 
-	// Pick up block name and remove it from the block-definition object.
-	$block_name = $block_definition['name'];
-	unset( $block_definition['name'] );
+	register_block_type( 'core/navigation-menu', array(
+		'category' => 'layout',
+		'attributes' => array(
+			'className' => array(
+				'type' => 'string'
+			),
 
-	// Add render callback into block-definition object.
-	$block_definition['render_callback'] = 'render_block_navigation_menu';
+			'automaticallyAdd' => array(
+				'type' => 'boolean',
+				'default' => false,
+			),
 
-	register_block_type(
-		$block_name,
-		$block_definition
-	);
+			'backgroundColor' => array(
+				'type' => 'string',
+			),
+
+			'textColor' => array(
+				'type' => 'string',
+			),
+
+			'backgroundColorValue' => array(
+				'type' => 'string',
+			),
+
+			'textColorValue' => array(
+				'type' => 'string',
+			),
+
+			'customBackgroundColor' => array(
+				'type' => 'string',
+			),
+
+			'customTextColor' => array(
+				'type' => 'string',
+			),
+
+			'backgroundColorCSSClass' => array(
+				'type' => 'string',
+			),
+
+			'textColorCSSClass' => array(
+				'type' => 'string',
+			),
+		),
+
+		"render_callback" => "render_block_navigation_menu",
+	) );
 }
 
 add_action( 'init', 'register_block_core_navigation_menu' );
