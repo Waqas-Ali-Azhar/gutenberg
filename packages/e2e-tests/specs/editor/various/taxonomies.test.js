@@ -1,4 +1,9 @@
 /**
+ * External dependencies
+ */
+import { random } from 'lodash';
+
+/**
  * WordPress dependencies
  */
 import {
@@ -108,25 +113,18 @@ describe( 'Taxonomies', () => {
 		expect( selectedCategories[ 0 ] ).toEqual( 'z rand category 1' );
 	} );
 
-	// This test isn't reliable locally because repeated execution of the test triggers 400 network
-	// because of the tag's duplication. Also, it randomly doesn't add a new tag after pressing enter.
-	// See: https://github.com/WordPress/gutenberg/pull/15211.
-	it.skip( 'should be able to open the tags panel and create a new tag if the user has the right capabilities', async () => {
+	it( 'should be able to open the tags panel and create a new tag if the user has the right capabilities', async () => {
 		await createNewPost();
-
-		await openDocumentSettingsSidebar();
-
-		const tagsPanel = await findSidebarPanelWithTitle( 'Tags' );
-
-		//expect( await page.evaluate( ( el ) => el.outerHTML, tagsPanel ) ).toEqual( 'tag1 ok' );
-		expect( tagsPanel ).toBeDefined();
 
 		// If the user has no permission to add a new tag finish the test.
 		if ( ! ( await canCreatTermInTaxonomy( 'tags' ) ) ) {
 			return;
 		}
 
+		await openDocumentSettingsSidebar();
+
 		// Open the tags panel.
+		const tagsPanel = await findSidebarPanelWithTitle( 'Tags' );
 		await tagsPanel.click( 'button' );
 
 		// At the start there are no tag tokens
@@ -141,8 +139,10 @@ describe( 'Taxonomies', () => {
 		// Click the tag input field.
 		await tagInput.click();
 
+		const tagName = 'tag-' + random( 1, Number.MAX_SAFE_INTEGER );
+
 		// Type the category name in the field.
-		await tagInput.type( 'tag1' );
+		await tagInput.type( tagName );
 
 		// Press enter to create a new tag.
 		await tagInput.press( 'Enter' );
@@ -154,7 +154,7 @@ describe( 'Taxonomies', () => {
 
 		// The post should only contain the tag we added.
 		expect( tags ).toHaveLength( 1 );
-		expect( tags[ 0 ] ).toEqual( 'tag1' );
+		expect( tags[ 0 ] ).toEqual( tagName );
 
 		// Type something in the title so we can publish the post.
 		await page.type( '.editor-post-title__input', 'Hello World' );
@@ -172,6 +172,6 @@ describe( 'Taxonomies', () => {
 
 		// The tag selection was persisted after the publish process.
 		expect( tags ).toHaveLength( 1 );
-		expect( tags[ 0 ] ).toEqual( 'tag1' );
+		expect( tags[ 0 ] ).toEqual( tagName );
 	} );
 } );
