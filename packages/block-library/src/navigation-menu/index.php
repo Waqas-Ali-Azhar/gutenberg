@@ -25,7 +25,7 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 		$colors['bg_css_classes'] .= ' has-background-color';
 	}
 	if ( array_key_exists( 'backgroundColorCSSClass', $attributes ) ) {
-		$colors['bg_css_classes'] .= " {$attributes['backgroundColorCSSClass']};";
+		$colors['bg_css_classes'] .= " {$attributes['backgroundColorCSSClass']}";
 	}
 	$colors['bg_css_classes'] = esc_attr( trim( $colors['bg_css_classes'] ) );
 
@@ -34,13 +34,20 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 		$colors['text_css_classes'] .= ' has-text-color;';
 	}
 	if ( array_key_exists( 'textColorCSSClass', $attributes ) ) {
-		$colors['text_css_classes'] .= " {$attributes['textColorCSSClass']};";
+		$colors['text_css_classes'] .= " {$attributes['textColorCSSClass']}";
 	}
 	$colors['text_css_classes'] = esc_attr( trim( $colors['text_css_classes'] ) );
 
 	// Pick up inline Styles.
-	$colors['bg_inline_styles']   = 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';';
-	$colors['text_inline_styles'] = 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';';
+	$inline_styles = [];
+	if ( array_key_exists( 'backgroundColorValue', $attributes ) ) {
+		$inline_styles[] = 'background-color: ' . esc_attr($attributes['backgroundColorValue']) . ';';
+	}
+
+	if ( array_key_exists( 'textColorValue', $attributes ) ) {
+		$inline_styles[] = 'color: ' . esc_attr($attributes['textColorValue']) . ';';
+	}
+	$colors['inline_styles'] = esc_attr( trim( implode( ' ', $inline_styles ) ) );
 
 	return '<nav class="wp-block-navigation-menu">' .
 		build_navigation_menu_html( $block, $colors ) .
@@ -58,9 +65,13 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 function build_navigation_menu_html( $block, $colors ) {
 	$html = '';
 	foreach ( (array) $block['innerBlocks'] as $key => $menu_item ) {
-		$html .= '<li style="' . $colors['bg_inline_styles'] . ' ' . $colors['text_inline_styles'] . '">' .
+		$inline_styles = ! empty( $colors['inline_styles'] )
+			? " style='{$colors['inline_styles']}'"
+			: '';
+
+		$html .= '<li' . $inline_styles . '>' .
 			'<div class="wp-block-navigation-menu-item ' . $colors['bg_css_classes'] . '">' .
-			'<a class="wp-block-navigation-menu-link ' . $colors['text_css_classes'] . '"';
+			'<a class="wp-block-navigation-menu-item__link ' . $colors['text_css_classes'] . '"';
 
 		if ( isset( $menu_item['attrs']['destination'] ) ) {
 			$html .= ' href="' . $menu_item['attrs']['destination'] . '"';

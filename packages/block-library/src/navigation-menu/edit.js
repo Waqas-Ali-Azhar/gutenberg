@@ -99,8 +99,10 @@ function NavigationMenu( {
 	};
 
 	// Set/Unset colors CSS classes.
-	setAttributes( { backgroundColorCSSClass: backgroundColor.class ? backgroundColor.class : null } );
-	setAttributes( { textColorCSSClass: textColor.class ? textColor.class : null } );
+	setAttributes( {
+		backgroundColorCSSClass: backgroundColor.class ? backgroundColor.class : null,
+		textColorCSSClass: textColor.class ? textColor.class : null,
+	} );
 
 	return (
 		<Fragment>
