@@ -14,8 +14,8 @@ import { ColorPaletteControl, ContrastChecker } from '@wordpress/block-editor';
 
 /**
  * Color Selector Icon component.
+ *
  * @return {*} React Icon component.
- * @constructor
  */
 const ColorSelectorIcon = ( { style } ) =>
 	<div className="block-library-colors-selector__icon-container">
@@ -30,9 +30,9 @@ const ColorSelectorIcon = ( { style } ) =>
 /**
  * Renders the Colors Selector Toolbar with the icon button.
  *
- * @param {object} style Colors style object.
- * @param {function} onToggle Callback open/close Dropdown.
- * @param {bool} isOpen True is the color settings dropdown is open. Otherwise, False.
+ * @param {Object}   style           Colors style object.
+ * @param {Function} toggle.onToggle Toggle callback.
+ * @param {boolean}  toggle.isOpen   Toggle component is open state.
  * @return {*} React toggle button component.
  */
 const renderToggleComponent = ( style ) => ( { onToggle, isOpen } ) => {
@@ -51,14 +51,14 @@ const renderToggleComponent = ( style ) => ( { onToggle, isOpen } ) => {
 				label={ __( 'Open Colors Selector' ) }
 				onClick={ onToggle }
 				onKeyDown={ openOnArrowDown }
-				icon={ <ColorSelectorIcon style={ style }/> }
+				icon={ <ColorSelectorIcon style={ style } /> }
 			/>
 		</Toolbar>
 	);
 };
 
-const renderContent = ( { backgroundColor, textColor, onColorChange = noop } ) => ( ( { isOpen, onToggle, onClose } ) => {
-	const setColor = colorType => value => onColorChange( { colorType, value } );
+const renderContent = ( { backgroundColor, textColor, onColorChange = noop } ) => ( () => {
+	const setColor = ( attr ) => ( value ) => onColorChange( { attr, value } );
 
 	return (
 		<>
@@ -84,7 +84,7 @@ const renderContent = ( { backgroundColor, textColor, onColorChange = noop } ) =
 				isLargeText={ false }
 			/>
 		</>
-	)
+	);
 } );
 
 export default ( { style, className, ...colorControlProps } ) =>

@@ -51,7 +51,7 @@ function NavigationMenu( {
 				return null;
 			}
 			return pages.map( ( page ) => {
-				return [ 'core/navigation-menu-item', { label: page.title.rendered,  destination: page.permalink_template } ];
+				return [ 'core/navigation-menu-item', { label: page.title.rendered, destination: page.permalink_template } ];
 			} );
 		},
 		[ pages ]
@@ -81,19 +81,20 @@ function NavigationMenu( {
 	 * Both `backgroundColorValue` and `textColorValue` are
 	 * using the apply inline styles.
 	 *
-	 * @param {string} colorType Color type to be applied.
-	 * @param {string} value     Color value to apply to the color type.
+	 * @param {Object}  colorsData       Arguments passed by BlockColorsStyleSelector onColorChange.
+	 * @param {string}  colorsData.attr  Color attribute.
+	 * @param {boolean} colorsData.value Color attribute value.
 	 */
-	const setColorType = ( { colorType, value } ) => {
-		switch ( colorType ) {
-		    case 'backgroundColor':
-		        setBackgroundColor( value );
-		        setAttributes( { [ 'backgroundColorValue' ]: value } );
-		        break;
+	const setColorType = ( { attr, value } ) => {
+		switch ( attr ) {
+			case 'backgroundColor':
+				setBackgroundColor( value );
+				setAttributes( { backgroundColorValue: value } );
+				break;
 
 			case 'textColor':
 				setTextColor( value );
-				setAttributes( { [ 'textColorValue' ]: value } );
+				setAttributes( { textColorValue: value } );
 				break;
 		}
 	};
@@ -132,10 +133,8 @@ function NavigationMenu( {
 				</PanelBody>
 			</InspectorControls>
 
-			<div className={ navigationMenuClasses } style={ navigationMenuStyles}>
-				{ isRequesting &&
-					<Spinner />
-				}
+			<div className={ navigationMenuClasses } style={ navigationMenuStyles }>
+				{ isRequesting && <Spinner /> }
 				{ pages &&
 					<InnerBlocks
 						template={ defaultMenuItems ? defaultMenuItems : null }
@@ -164,6 +163,3 @@ export default compose( [
 		};
 	} ),
 ] )( NavigationMenu );
-
-
-
