@@ -39,13 +39,13 @@ function render_block_navigation_menu( $attributes, $content, $block ) {
 	$colors['text_css_classes'] = esc_attr( trim( $colors['text_css_classes'] ) );
 
 	// Pick up inline Styles.
-	$inline_styles = [];
+	$inline_styles = array();
 	if ( array_key_exists( 'backgroundColorValue', $attributes ) ) {
-		$inline_styles[] = 'background-color: ' . esc_attr($attributes['backgroundColorValue']) . ';';
+		array_push( $inline_styles, 'background-color: ' . esc_attr( $attributes['backgroundColorValue'] ) . ';' );
 	}
 
 	if ( array_key_exists( 'textColorValue', $attributes ) ) {
-		$inline_styles[] = 'color: ' . esc_attr($attributes['textColorValue']) . ';';
+		array_push( $inline_styles, 'color: ' . esc_attr( $attributes['textColorValue'] ) . ';' );
 	}
 	$colors['inline_styles'] = esc_attr( trim( implode( ' ', $inline_styles ) ) );
 
@@ -102,53 +102,56 @@ function build_navigation_menu_html( $block, $colors ) {
  */
 function register_block_core_navigation_menu() {
 
-	register_block_type( 'core/navigation-menu', array(
-		'category' => 'layout',
-		'attributes' => array(
-			'className' => array(
-				'type' => 'string'
+	register_block_type(
+		'core/navigation-menu',
+		array(
+			'category'        => 'layout',
+			'attributes'      => array(
+				'className'               => array(
+					'type' => 'string',
+				),
+
+				'automaticallyAdd'        => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+
+				'backgroundColor'         => array(
+					'type' => 'string',
+				),
+
+				'textColor'               => array(
+					'type' => 'string',
+				),
+
+				'backgroundColorValue'    => array(
+					'type' => 'string',
+				),
+
+				'textColorValue'          => array(
+					'type' => 'string',
+				),
+
+				'customBackgroundColor'   => array(
+					'type' => 'string',
+				),
+
+				'customTextColor'         => array(
+					'type' => 'string',
+				),
+
+				'backgroundColorCSSClass' => array(
+					'type' => 'string',
+				),
+
+				'textColorCSSClass'       => array(
+					'type' => 'string',
+				),
 			),
 
-			'automaticallyAdd' => array(
-				'type' => 'boolean',
-				'default' => false,
-			),
-
-			'backgroundColor' => array(
-				'type' => 'string',
-			),
-
-			'textColor' => array(
-				'type' => 'string',
-			),
-
-			'backgroundColorValue' => array(
-				'type' => 'string',
-			),
-
-			'textColorValue' => array(
-				'type' => 'string',
-			),
-
-			'customBackgroundColor' => array(
-				'type' => 'string',
-			),
-
-			'customTextColor' => array(
-				'type' => 'string',
-			),
-
-			'backgroundColorCSSClass' => array(
-				'type' => 'string',
-			),
-
-			'textColorCSSClass' => array(
-				'type' => 'string',
-			),
-		),
-
-		"render_callback" => "render_block_navigation_menu",
-	) );
+			'render_callback' => 'render_block_navigation_menu',
+		)
+	);
 }
 
 add_action( 'init', 'register_block_core_navigation_menu' );

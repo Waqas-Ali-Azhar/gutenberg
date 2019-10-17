@@ -31,6 +31,7 @@ const ColorSelectorIcon = ( { style } ) =>
  * Renders the Colors Selector Toolbar with the icon button.
  *
  * @param {Object}   style           Colors style object.
+ * @param {Object}   toggle          Object properties passed by the Dropdown renderToggle.
  * @param {Function} toggle.onToggle Toggle callback.
  * @param {boolean}  toggle.isOpen   Toggle component is open state.
  * @return {*} React toggle button component.
